@@ -1,0 +1,11 @@
+-include("sender.hrl").
+%%%% Log Api -----------------------------------------------------------------------------
+
+%% log:debug(Msg)
+-define(LOG_DEBUG(Msg,Data),log:debug(Msg,Data,?Sender)).
+
+-define(LOG_NOTICE(Msg,Data),log:notice(Msg,Data,?Sender)).
+
+-define(LOG_WARNING(Msg,Data),log:warning(Msg,Data,?Sender)).
+
+-define(LOG_ALERT(Msg,Data),log:alert(Msg,Data,?Sender)).
