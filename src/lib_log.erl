@@ -47,11 +47,11 @@ create_logfile(MainLogDir,ProviderLogDir,LogFile,LogFilePath,MaxLogLength)->
 %% @spec
 %% @end
 %%--------------------------------------------------------------------
-% {erlang:system_time(microsecond),ModuleString,Line,MsgAsString}
+
 parse(ListRaw)->
     [parse_item(Item)||Item<-ListRaw].
 
-parse_item({TimeStamp,SenderNode,SenderPid,Module,Function,Line,Data,MsgAsString})->
+parse_item({TimeStamp,_Time,SenderNode,SenderPid,Module,Function,Line,Data,MsgAsString})->
     {{Y,M,D},{H,Mi,S}}=calendar:now_to_datetime(TimeStamp),
     Year=integer_to_list(Y),
     Month=integer_to_list(M),
@@ -87,6 +87,7 @@ create_logger(LogFile)->
 			  #{formatter => {logger_formatter,
 					  #{ template => [
 							  timestamp," | ",
+							  sender_time," | ",
 							  level," | ",
 							  sender_node," | ",
 							  sender_pid," | ",
@@ -109,6 +110,7 @@ create_logger(LogFile)->
 			    formatter => {logger_formatter,
 					    #{ template => [
 							    timestamp," | ",
+							    sender_time," | ",
 							    level," | ",
 							    sender_node," | ",
 							    sender_pid," | ",
