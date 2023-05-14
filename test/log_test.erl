@@ -26,12 +26,9 @@
 start()->
     io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME}]),
     ok=setup(),
-  
     ok=logging(),
- %   ok=read_test(),
 
     io:format("Test SUCCEDED OK!!!! ~p~n",[{?MODULE,?FUNCTION_NAME}]),
-%    init:stop(),
     ok.
 
 
@@ -43,19 +40,7 @@ setup_test()->
 %% Description: Initiate the eunit tests, set upp needed processes etc
 %% Returns: non
 %% -------------------------------------------------------------------
-init_create_test()->
-    io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
-    file:del_dir_r("logs"),
-    create_test().
 
-create_test()->
-    io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME,?LINE}]),
-    {ok,[R1,R2,R3]}=lib_log:create_logfile("logs","logs/kube","logs/kube/kube.log"),
-    io:format("MainLogDir ~p~n",[{R1,?MODULE,?FUNCTION_NAME,?LINE}]),
-    io:format("ProviderLogDir ~p~n",[{R1,?MODULE,?FUNCTION_NAME,?LINE}]),
-    io:format("LogFile ~p~n",[{R3,?MODULE,?FUNCTION_NAME,?LINE}]),
-    
-    ok.
 %% --------------------------------------------------------------------
 %% Function:start/0 
 %% Description: Initiate the eunit tests, set upp needed processes etc
@@ -120,8 +105,7 @@ read_test()->
 %% -------------------------------------------------------------------
 setup()->
     io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME}]),
-    file:del_dir_r("logs"),
-    
+  
     
 
     ok.

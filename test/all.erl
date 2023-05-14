@@ -29,7 +29,7 @@ start()->
               
     io:format("Test OK !!! ~p~n",[?MODULE]),
     timer:sleep(2000),
-    init:stop(),
+%    init:stop(),
     ok.
 
 %% --------------------------------------------------------------------
@@ -48,9 +48,11 @@ start()->
 setup()->
     io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME}]),
   
-    ok=application:start(tests),
-   
+    file:del_dir_r("logs"),
+
+    ok=application:start(app_sim),
     pong=log:ping(),
+    
     io:format("Stop OK !!! ~p~n",[{?MODULE,?FUNCTION_NAME}]),
 
     ok.

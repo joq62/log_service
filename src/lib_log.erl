@@ -93,8 +93,8 @@ create_logger(LogFile)->
 							  sender_module," | ",
 							  sender_function," | ",
 							  sender_line," | ",
-							  data," | ",
-							  msg,"\n"
+							  msg," | ",
+							  sender_data,"\n"
 							 ]}}}) of
 	       {error,Reason}->
 		   {error,["Error when creating LogFile :",Reason,?MODULE,?LINE]};
@@ -115,8 +115,8 @@ create_logger(LogFile)->
 							    sender_module," | ",
 							    sender_function," | ",
 							    sender_line," | ",
-							    data," | ",
-							    msg,"\n"
+							    msg," | ",
+							    sender_data,"\n"
 							   ]}}}) of
 		       {error,Reason}->
 			   {error,["Error when creating LogFile :",LogFile,Reason,?MODULE,?LINE]};

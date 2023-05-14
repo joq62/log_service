@@ -58,7 +58,7 @@ eunit:
 	rm -rf Mnesia.*;
 	rm -rf *.dir;
 	rm -f rebar.lock;
-#	tests 
+#	tests
 	mkdir test_ebin;
 	cp  test/*.app test_ebin;
 	erlc -I include -I ../api_repo  -o test_ebin test/*.erl;

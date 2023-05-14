@@ -60,12 +60,15 @@ init([]) ->
     {ok,LogFile}=application:get_env(log_file),
     {ok,LogFilePath}=application:get_env(log_file_path),
     {ok,MaxLogLength}=application:get_env(max_log_length),
+ %   ?LOG_NOTICE("Server started ",[MainLogDir,ProviderLogDir,LogFilePath,MaxLogLength,?MODULE,?LINE]),
+ %   ?LOG_WARNING("Server started ",[MainLogDir,ProviderLogDir,LogFilePath,MaxLogLength,?MODULE,?LINE]),
+    io:format("dbg ~p~n",[{MainLogDir,ProviderLogDir,LogFilePath,MaxLogLength,?MODULE,?LINE}]),
     {ok, #state{
-	    main_log_dir=MainLogDir,
-	    provider_log_dir=ProviderLogDir,
-	    log_file_path=LogFilePath,
-	    log_file=LogFile,
-	    max_log_length=MaxLogLength},0
+		main_log_dir=MainLogDir,
+		provider_log_dir=ProviderLogDir,
+		log_file_path=LogFilePath,
+		log_file=LogFile,
+		max_log_length=MaxLogLength},0
     }.
 
 %% --------------------------------------------------------------------
@@ -160,18 +163,16 @@ handle_cast({debug,Msg,Data,{SenderNode,SenderPid,Module,FunctionName,Line,TimeS
     Len=length(State#state.debug),
     if
 	Len<State#state.max_log_length->
-	    NewState=State#state{debug=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|State#state.debug]};
+	    NewState=State#state{debug=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|State#state.debug]};
 	true->
 	    Templist=lists:delete(lists:last(State#state.notice),State#state.debug),
-	    NewState=State#state{debug=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|Templist]}
+	    NewState=State#state{debug=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|Templist]}
     end,
     {noreply,NewState};
 
 handle_cast({notice,Msg,Data,{SenderNode,SenderPid,Module,FunctionName,Line,TimeStamp}}, State) ->
     R= io_lib:format("~p",[Msg]),
     MsgAsString=lists:flatten(R),
-  %  R_data= io_lib:format("~p",[Data]),
-  %  DataAsString=lists:flatten(R_data),
     logger:notice(MsgAsString,#{timestamp=>TimeStamp,
 				sender_node=>SenderNode,
 				sender_pid=>SenderPid,
@@ -183,10 +184,10 @@ handle_cast({notice,Msg,Data,{SenderNode,SenderPid,Module,FunctionName,Line,Time
 						%   io:format("notice Len= ~p~n",[{Len,?MODULE,?LINE}]),
     if
 	Len<State#state.max_log_length->
-	    NewState=State#state{notice=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|State#state.notice]};
+	    NewState=State#state{notice=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|State#state.notice]};
 	true->
 	    Templist=lists:delete(lists:last(State#state.notice),State#state.notice),
-	    NewState=State#state{notice=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|Templist]}
+	    NewState=State#state{notice=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|Templist]}
     end,
     {noreply,NewState};
 
@@ -204,10 +205,10 @@ handle_cast({warning,Msg,Data,{SenderNode,SenderPid,Module,FunctionName,Line,Tim
 						%   io:format("notice Len= ~p~n",[{Len,?MODULE,?LINE}]),
     if
 	Len<State#state.max_log_length->
-	    NewState=State#state{warning=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|State#state.warning]};
+	    NewState=State#state{warning=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|State#state.warning]};
 	true->
 	    Templist=lists:delete(lists:last(State#state.notice),State#state.warning),
-	    NewState=State#state{warning=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|Templist]}
+	    NewState=State#state{warning=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|Templist]}
     end,
     {noreply,NewState};
 
@@ -225,10 +226,10 @@ handle_cast({alert,Msg,Data,{SenderNode,SenderPid,Module,FunctionName,Line,TimeS
 						%   io:format("notice Len= ~p~n",[{Len,?MODULE,?LINE}]),
     if
 	Len<State#state.max_log_length->
-	    NewState=State#state{alert=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|State#state.alert]};
+	    NewState=State#state{alert=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|State#state.alert]};
 	true->
 	    Templist=lists:delete(lists:last(State#state.notice),State#state.alert),
-	    NewState=State#state{alert=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,MsgAsString,Data}|Templist]}
+	    NewState=State#state{alert=[{TimeStamp,SenderNode,SenderPid,Module,FunctionName,Line,Data,MsgAsString}|Templist]}
     end,
     {noreply,NewState};
 
@@ -252,7 +253,8 @@ handle_info(timeout, State) ->
 				  State#state.log_file,
 				  State#state.log_file_path,
 				  State#state.max_log_length),
-    ?LOG_NOTICE("Server started and created log file with result",[Result]),
+    io:format("dbg Result ~p~n",[{Result,?MODULE,?LINE}]),
+    log:notice("Server started ",Result,{node(),self(),?MODULE,?FUNCTION_NAME,?LINE,erlang:system_time(millisecond)}),
     {noreply, State};
 
 handle_info(Info, State) ->
