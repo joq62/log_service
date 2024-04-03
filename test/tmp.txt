@@ -1,0 +1,44 @@
+Start {all,read_log_test}
+=NOTICE REPORT==== 5-Dec-2023::02:06:24.557425 ===
+"Server started "
+Str =>> "   TimeStamp         |   {date(),time()}        | level  | node()         | pid()     | Module| Function | Line | IfonText  | Args"
+Str =>> "   "
+Str =>> "                     |                          | error  |                |           |      |      |     | Supervisor: {local,control_sup}. Context: shutdown. Reason: reached_max_restart_intensity. Offender: id=appl_ctrl,pid=<0.273.0>. |"
+Str =>> "                     |                          | notice |                |           |      |      |     | Application: control. Exited: shutdown. Type: temporary. |"
+Str =>> "                     |                          | notice |                |           |      |      |     | SIGTERM received - shutting down |"
+Str =>> "{1701,984538,440318} | {{2023,12,7},{21,28,58}} | notice | control_a@c201 | <0.249.0> | etcd | init | 106 | \"Added Dbase Node \"              | [control_a@c201,[control_a@c200]]"
+Str =>> "{1701,984539,258336} | {{2023,12,7},{21,28,59}} | notice | control_a@c201 | <0.249.0> | etcd | init | 111 | \"Server started \"                | []"
+Str =>> "{1701,984539,299584} | {{2023,12,7},{21,28,59}} | notice | control_a@c201 | <0.86.0> | system_boot | init | 102 | \"LogStart \" | [{log,ok}]"
+Str =>> " |  | error |  |  |  |  |  | ** Node terminal@c50 not responding **, ** Removing (timedout) connection ** |"
+Str =>> " |  | error |  |  |  |  |  | ** Node terminal@c50 not responding **, ** Removing (timedout) connection ** |"
+Str =>> "{1702,130029,194024} | {{2023,12,9},{13,53,49}} | notice | control_a@c201 | <0.298.0> | lib_node_ctrl | create_worker | 50 | \"WorkerDir\" | 1_a"
+ Line = ["   TimeStamp         ","   {date(),time()}        "," level  ",
+         " node()         "," pid()     "," Module"," Function "," Line ",
+         " IfonText  "," Args"]
+ Line = ["   "]
+ Line = ["                     ","                          "," error  ",
+         "                ","           ","      ","      ","     ",
+         " Supervisor: {local,control_sup}. Context: shutdown. Reason: reached_max_restart_intensity. Offender: id=appl_ctrl,pid=<0.273.0>. "]
+ Line = ["                     ","                          "," notice ",
+         "                ","           ","      ","      ","     ",
+         " Application: control. Exited: shutdown. Type: temporary. "]
+ Line = ["                     ","                          "," notice ",
+         "                ","           ","      ","      ","     ",
+         " SIGTERM received - shutting down "]
+ Line = ["{1701,984538,440318} "," {{2023,12,7},{21,28,58}} "," notice ",
+         " control_a@c201 "," <0.249.0> "," etcd "," init "," 106 ",
+         " \"Added Dbase Node \"              ",
+         " [control_a@c201,[control_a@c200]]"]
+ Line = ["{1701,984539,258336} "," {{2023,12,7},{21,28,59}} "," notice ",
+         " control_a@c201 "," <0.249.0> "," etcd "," init "," 111 ",
+         " \"Server started \"                "," []"]
+ Line = ["{1701,984539,299584} "," {{2023,12,7},{21,28,59}} "," notice ",
+         " control_a@c201 "," <0.86.0> "," system_boot "," init "," 102 ",
+         " \"LogStart \" "," [{log,ok}]"]
+ Line = [" ","  "," error ","  ","  ","  ","  ","  ",
+         " ** Node terminal@c50 not responding **, ** Removing (timedout) connection ** "]
+ Line = [" ","  "," error ","  ","  ","  ","  ","  ",
+         " ** Node terminal@c50 not responding **, ** Removing (timedout) connection ** "]
+ Line = ["{1702,130029,194024} "," {{2023,12,9},{13,53,49}} "," notice ",
+         " control_a@c201 "," <0.298.0> "," lib_node_ctrl "," create_worker ",
+         " 50 "," \"WorkerDir\" "," 1_a"]
